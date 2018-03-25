@@ -1,30 +1,30 @@
 #!/bin/bash
 #####		一键安装Zabbix agent		#####
-#####		Update:2017-12-04			#####
+#####		Update:2018-03-25			#####
 #####		Author:xiaoz.me				#####
 
 #获取主机名
 hostname=$(hostname)
 #获取服务器IP
-osip=$(curl http://https.tn/ip/myip.php?type=onlyip)
+osip=$(curl https://ip.awk.sh/api.php?data=ip)
 #配置文件
 zabbix_config="/etc/zabbix/zabbix_agentd.conf"
 
 #配置zabbix agent
-function setting(){
+function setting($hostname,$osip){
 	read -p "输入Zabbix server IP：" serverip
 	#备份配置
 	cp /etc/zabbix/zabbix_agentd.conf /etc/zabbix/zabbix_agentd.conf.bak
 	#设置Server name
-	sed -i "s/Hostname=Zabbix server/Hostname=$1/g" ${zabbix_config}
+	sed -i "s/Hostname=Zabbix server/Hostname=${hostname}/g" ${zabbix_config}
 	#设置连接IP
-	sed -i "s/# SourceIP=/SourceIP=$2/g" ${zabbix_config}
+	sed -i "s/# SourceIP=/SourceIP=${osip}/g" ${zabbix_config}
 	#设置Server IP
-	sed -i "s/Server=127.0.0.1/Server=${serverip}/g" ${zabbix_config}
-	
+	sed -i "s/ServerActive=127.0.0.1/ServerActive=${serverip}/g" ${zabbix_config}
+	echo "\n"
 	echo "#####		设置成功		#####"
 	echo "Server IP:${serverip}"
-	echo "Agent:$2:10050"
+	echo "Agent:${osip}:10050"
 	echo "###############################"
 }
 
@@ -80,22 +80,14 @@ echo "q) 退出"
 echo "----------------------------------"
 read -p ":" num
 case $num in
-	1)
-		#安装
-		centos7
-		#设置
-		setting $hostname $osip
-		#放行端口
-		chk_firewall
-		#启动服务
+	1) 
+		centos7()
+		setting($hostname,$osip)
+		chk_firewall()
 		systemctl start zabbix-agent.service
 	;;
 	2) 
-		centos6
-		setting $hostname $osip
-		#放行端口
-		chk_firewall
-		service zabbix-agent start
+	echo "CentOS 6"
 	;;
 	3) 
 	echo "Debian 8"
