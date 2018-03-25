@@ -7,7 +7,7 @@ read -p "修改SSH端口：" sshport
 if [ "$myhostname" != '' ]
 then
 	sudo hostnamectl set-hostname ${myhostname}
-if [ "$sshport" != '' ]
+elif [ "$sshport" != '' && "$myhostname" != '' ]
 	then
 	#删除SSH端口
 	sed -i '/^#Port/'d /etc/ssh/sshd_config
