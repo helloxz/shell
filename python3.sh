@@ -10,7 +10,7 @@ export PATH
 
 #安装依赖
 function rely(){
-	yum -y install wget gcc gcc-c++ libffi-devel
+	yum -y install wget gcc gcc-c++ libffi-devel zlib-devel
 }
 
 #安装Python 3.7函数
@@ -24,7 +24,7 @@ function install_py37(){
 	cd Python-3.7.0
 	#编译安装
 	./configure --prefix=/usr/local/python3 --enable-optimizations
-	make -j4 && make -j4 instal
+	make -j4 && make -j4 install
 	#清理工作
 	cd ..
 	rm -rf Python-*
@@ -32,7 +32,7 @@ function install_py37(){
 	ln -s /usr/local/python3/bin/python3.7 /usr/bin/python3
 	ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
 	echo "------------------------------------------------"
-	echo '|			 恭喜您，Python 3安装完成！  		  '	
+	echo '|	恭喜您，Python 3安装完成！  		 |'	
 	echo "------------------------------------------------"
 }
 
@@ -42,7 +42,7 @@ function uninstall(){
 	rm -rf /usr/bin/python3
 	rm -rf /usr/bin/pip3
 	echo "------------------------------------------------"
-	echo '|				Python 3已卸载！				  '	
+	echo '|	Python 3已卸载！				 |'	
 	echo "------------------------------------------------"
 }
 
