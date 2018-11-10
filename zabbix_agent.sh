@@ -6,7 +6,7 @@
 #获取主机名
 hostname=$(hostname)
 #获取服务器IP
-osip=$(curl https://ip.awk.sh/api.php?data=ip)
+osip=$(curl https://api.ttt.sh/ip/qqwry/?type=ip)
 #配置文件
 zabbix_config="/etc/zabbix/zabbix_agentd.conf"
 
