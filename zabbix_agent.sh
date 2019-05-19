@@ -1,6 +1,6 @@
 #!/bin/bash
 #####		一键安装Zabbix agent		#####
-#####		Update:2018-03-25			#####
+#####		Update:2019-05-19			#####
 #####		Author:xiaoz.me				#####
 
 #获取主机名
@@ -70,12 +70,20 @@ function debian7(){
 	apt-get install -y zabbix-agent
 }
 
+function zabbix4(){
+	wget http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
+	yum -y install zabbix-agent
+	#开机启动
+	systemctl enable zabbix-agent.service
+}
+
 echo "----------------------------------"
 echo "请选择系统："
-echo "1) CentOS 7"
+echo "1) CentOS 7(Zabbix agent v3.4)"
 echo "2) CentOS 6"
 echo "3) Debian 8"
 echo "4) Debian 7"
+echo "5) CentOS 7(Zabbix agent v4.0)"
 echo "q) 退出"
 echo "----------------------------------"
 read -p ":" num
@@ -102,6 +110,15 @@ case $num in
 	;;
 	4) 
 	echo "Debian 7"
+	;;
+	5)
+		zabbix4
+		#设置
+		setting $hostname $osip
+		#放行端口
+		chk_firewall
+		#启动服务
+		systemctl start zabbix-agent.service
 	;;
 	q) 
 	exit
