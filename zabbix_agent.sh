@@ -71,7 +71,7 @@ function debian7(){
 }
 
 function zabbix4(){
-	wget http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
+	rpm -ivh http://repo.zabbix.com/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-1.el7.noarch.rpm
 	yum -y install zabbix-agent
 	#开机启动
 	systemctl enable zabbix-agent.service
