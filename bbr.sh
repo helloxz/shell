@@ -15,5 +15,7 @@ grub2-set-default 0
 echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
 
+#清理工作
+rm -rf RPM-GPG-KEY-elrepo.org bbr.sh
 #重启服务器
 reboot
