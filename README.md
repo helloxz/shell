@@ -7,5 +7,5 @@
 ### 使用方法
 ```
 yum -y install git
-git clone https://github.com/helloxz/mping.git ./shell && cd shell && bash install.sh
+git clone https://github.com/helloxz/shell.git ./shell && cd shell && bash install.sh
 ```
