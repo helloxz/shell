@@ -16,7 +16,7 @@ function depend(){
 function install_rpm(){
 	wget https://github.com/rabbitmq/erlang-rpm/releases/download/v23.1.5/erlang-23.1.5-1.el7.x86_64.rpm
 	wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.9/rabbitmq-server-3.8.9-1.el7.noarch.rpm
-	rpm -ivh v23.1.5/erlang-23.1.5-1.el7.x86_64.rpm
+	rpm -ivh erlang-23.1.5-1.el7.x86_64.rpm
 	rpm -ivh rabbitmq-server-3.8.9-1.el7.noarch.rpm
 }
 
@@ -35,8 +35,16 @@ function pass_firewalld(){
 	firewall-cmd --reload
 }
 
+#清理工作
+function clean_work(){
+	rm -rf erlang-23.1.5-1.el7.x86_64.rpm
+	rm -rf rabbitmq-server-3.8.9-1.el7.noarch.rpm
+	rm -rf install_rabbitmq.sh
+}
+
 #执行函数进行安装
 depend
 install_rpm
 instal_plugins
 pass_firewalld
+clean_work
