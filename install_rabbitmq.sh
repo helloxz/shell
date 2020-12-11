@@ -2,9 +2,9 @@
 #####		name:rpm包安装rabbitMQ		#####
 
 #参考教程：https://jingyan.baidu.com/article/c275f6bae21a0ca23c75672d.html
-#https://www.rabbitmq.com/install-rpm.html#package-dependencies
-#https://www.rabbitmq.com/install-rpm.html#install-erlang
-#https://github.com/rabbitmq/erlang-rpm/releases
+# https://www.rabbitmq.com/install-rpm.html#package-dependencies
+# https://www.rabbitmq.com/install-rpm.html#install-erlang
+# https://github.com/rabbitmq/erlang-rpm/releases
 
 #安装依赖
 function depend(){
