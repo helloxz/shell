@@ -3,6 +3,7 @@
 
 #同步时间
 function sync_time() {
+	echo '正在执行时间同步......'
 	yum -y install ntpdate
 	#设置时区
 	timedatectl set-local-rtc 1
@@ -15,9 +16,23 @@ function sync_time() {
 	systemctl reload crond
 	echo "同步成功，当前时间:" `date`
 }
-
+#修改SSH端口
+function change_port() {
+	echo '正在修改SSH端口......'
+	config_file="/etc/ssh/sshd_config"
+	if grep -q "^Port" $config_file;then
+	   	sed -i "/^Port/c Port 1993" $config_file
+	else
+	   echo "Port 1993" >> $config_file
+	fi
+	systemctl restart sshd
+   	firewall-cmd --zone=public --add-port=1993/tcp --permanent
+   	firewall-cmd --reload
+	echo 'SSH端口修改完毕......'
+}
 #安装BBR
 function insrall_bbr() {
+	echo '正在安装BBR......'
 	yum -y install wget
 	wget https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
 	rpm --import RPM-GPG-KEY-elrepo.org
@@ -34,7 +49,9 @@ function insrall_bbr() {
 
 	#清理工作
 	rm -rf RPM-GPG-KEY-elrepo.org bbr.sh
+	echo 'BBR安装完毕，10s后重启...'
+	sleep 10
 	#重启服务器
 	reboot
 }
-sync_time && insrall_bbr
+sync_time && change_port && insrall_bbr
