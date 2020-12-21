@@ -57,4 +57,8 @@ function insrall_bbr() {
 	reboot
 	sleep 5
 }
-sync_time && change_port && insrall_bbr
+sync_time
+sleep 5
+change_port
+sleep 5
+insrall_bbr
