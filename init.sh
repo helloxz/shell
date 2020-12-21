@@ -37,5 +37,4 @@ function insrall_bbr() {
 	#重启服务器
 	reboot
 }
-sync_time
-insrall_bbr
+sync_time && insrall_bbr
