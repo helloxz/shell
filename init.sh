@@ -15,6 +15,7 @@ function sync_time() {
 	echo "*/20 * * * * ${ntpd} pool.ntp.org > /dev/null 2>&1" >> /var/spool/cron/root
 	systemctl reload crond
 	echo "同步成功，当前时间:" `date`
+	sleep 5
 }
 #修改SSH端口
 function change_port() {
@@ -29,6 +30,7 @@ function change_port() {
    	firewall-cmd --zone=public --add-port=1993/tcp --permanent
    	firewall-cmd --reload
 	echo 'SSH端口修改完毕......'
+	sleep 5
 }
 #安装BBR
 function insrall_bbr() {
@@ -53,5 +55,6 @@ function insrall_bbr() {
 	sleep 10
 	#重启服务器
 	reboot
+	sleep 5
 }
 sync_time && change_port && insrall_bbr
