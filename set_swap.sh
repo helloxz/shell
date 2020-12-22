@@ -35,8 +35,7 @@ function set_swap(){
 	chmod 600 /dev/swap
 	mkswap /dev/swap
 	swapon /dev/swap && \
-	#写入分区表
-	echo '/dev/swap swap                    swap    defaults        0 0' >> /etc/fstab
+		echo '/dev/swap swap                    swap    defaults        0 0' >> /etc/fstab
 }
 
 #判断当前是否开启了虚拟内存
