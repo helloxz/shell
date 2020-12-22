@@ -16,7 +16,7 @@ get_swap=`free -mt|grep 'Swap'|awk '{print $2}'`
 #内存如果小于2g，则设置2倍
 if [ $p_mem -lt 2000 ]
 	then
-	swap_value=`$p_mem*2`
+	swap_value=`expr $p_mem * 2`
 elif [ $p_mem -gt 2000 ] && [ $p_mem -lt 8000 ]
 	#内存大于2G，小于8G，则设置和物理内存大小一致
 	then
