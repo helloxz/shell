@@ -34,6 +34,7 @@ function set_swap(){
 #判断当前是否开启了虚拟内存
 if swapon -s
 then
+	echo '---------------------------------'
 	echo 'You have already set up swap, there is no need to repeat the settings.'
 	exit
 else
