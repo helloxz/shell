@@ -5,8 +5,10 @@
 
 #获取物理内存
 p_mem=`free -m|grep Mem|awk '{print $2}'`
-#获取最佳虚拟内存大小
+#获取虚拟内存大小
+get_swap=`free -mt|grep 'Swap'|awk '{print $2}'`
 
+#获取最佳虚拟内存大小
 #内存如果小于2g，则设置2倍
 if [ $p_mem -lt 2000 ]
 	then
@@ -32,12 +34,8 @@ function set_swap(){
 }
 
 #判断当前是否开启了虚拟内存
-if swapon -s
+if [ $get_swap == 0 ]
 then
-	echo '---------------------------------'
-	echo 'You have already set up swap, there is no need to repeat the settings.'
-	exit
-else
 	#设置虚拟内存
 	set_swap
 	echo '---------------------------------'
@@ -47,6 +45,9 @@ else
 	echo '---------------------------------'
 	free -mt
 	echo '---------------------------------'
+else
+	echo '---------------------------------'
+	echo 'You have already set up swap, there is no need to repeat the settings.'
 fi
 
 exit
