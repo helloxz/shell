@@ -16,7 +16,7 @@ get_swap=`free -mt|grep 'Swap'|awk '{print $2}'`
 #内存如果小于2g，则设置2倍
 if [ $p_mem -lt 2000 ]
 	then
-	swap_value=$p_mem*2
+	swap_value=`$p_mem*2`
 elif [ $p_mem -gt 2000 ] && [ $p_mem -lt 8000 ]
 	#内存大于2G，小于8G，则设置和物理内存大小一致
 	then
@@ -31,6 +31,7 @@ fi
 function set_swap(){
 	#创建swap
 	dd if=/dev/zero of=/dev/swap bs=1M count=${swap_value}
+	chmod 600 /dev/swap
 	mkswap /dev/swap
 	swapon /dev/swap
 	#写入分区表
