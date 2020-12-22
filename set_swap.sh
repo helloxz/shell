@@ -4,6 +4,10 @@
 #####	author:xiaoz<xiaoz93@outlook.com>
 
 #获取物理内存
+declare -i p_mem
+declare -i get_swap
+declare -i swap_value
+
 p_mem=`free -m|grep Mem|awk '{print $2}'`
 #获取虚拟内存大小
 get_swap=`free -mt|grep 'Swap'|awk '{print $2}'`
