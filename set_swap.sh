@@ -31,11 +31,11 @@ fi
 #设置swap函数
 function set_swap(){
 	#创建swap
-	dd if=/dev/zero of=/dev/swap bs=1M count=${swap_value}
-	chmod 600 /dev/swap
-	mkswap /dev/swap
-	swapon /dev/swap && \
-		echo '/dev/swap swap                    swap    defaults        0 0' >> /etc/fstab
+	dd if=/dev/zero of=/swap bs=1M count=${swap_value}
+	chmod 600 /swap
+	mkswap /swap
+	swapon /swap && \
+		echo '/swap swap                    swap    defaults        0 0' >> /etc/fstab
 }
 
 #判断当前是否开启了虚拟内存
