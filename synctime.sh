@@ -17,4 +17,4 @@ ntpd=(`which ntpdate`)
 echo "*/20 * * * * ${ntpd} pool.ntp.org > /dev/null 2>&1" >> /var/spool/cron/root
 systemctl reload crond
 
-echo "同步成功，当前时间:" date 
+echo "同步成功，当前时间:" date
