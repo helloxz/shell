@@ -16,7 +16,8 @@ get_swap=`free -mt|grep 'Swap'|awk '{print $2}'`
 #内存如果小于2g，则设置2倍
 if [ $p_mem -lt 2000 ]
 	then
-	swap_value=`expr $p_mem * 2`
+	#乘号签名必须加\
+	swap_value=`expr $p_mem \* 2`
 elif [ $p_mem -gt 2000 ] && [ $p_mem -lt 8000 ]
 	#内存大于2G，小于8G，则设置和物理内存大小一致
 	then
@@ -33,7 +34,7 @@ function set_swap(){
 	dd if=/dev/zero of=/dev/swap bs=1M count=${swap_value}
 	chmod 600 /dev/swap
 	mkswap /dev/swap
-	swapon /dev/swap
+	swapon /dev/swap && \
 	#写入分区表
 	echo '/dev/swap swap                    swap    defaults        0 0' >> /etc/fstab
 }
