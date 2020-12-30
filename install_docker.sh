@@ -13,14 +13,14 @@ function install_docker(){
 
 	#安装
 	yum -y install containerd.io-1.3.9-3.1.el7.x86_64.rpm
-	yum -y install docker-ce-19.03.9-3.el7.x86_64.rpm
 	yum -y install docker-ce-cli-19.03.9-3.el7.x86_64.rpm
+	yum -y install docker-ce-19.03.9-3.el7.x86_64.rpm
 	#cd && rm -rf temp
 }
 
 #配置存储目录
 function set_storage() {
-	user add -g docker docker
+	useradd -g docker docker
 	mkdir -p /etc/docker
 	#创建配置文件
 	touch /etc/docker/daemon.json
@@ -39,6 +39,7 @@ function install_systemd() {
 	cd && cd temp
 	wget -O docker.service https://raw.githubusercontent.com/moby/moby/master/contrib/init/systemd/docker.service.rpm
 	mv docker.service /etc/systemd/system
+	#sed -i 's/dockerd/docker/g' /etc/systemd/system/docker.service
 	systemctl daemon-reload
 	systemctl start docker
 	systemctl enable docker
@@ -51,12 +52,15 @@ function clean_temp() {
 
 #测试运行
 function test_run() {
+	systemctl daemon-reload
+	systemctl start docker
+	systemctl enable docker
 	#运行一个hello word
 	docker run hello-world
 }
 
 install_docker
 set_storage
-install_systemd
+#install_systemd
 clean_temp
 test_run
