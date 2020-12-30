@@ -37,8 +37,7 @@ EOF
 #install systemc
 function install_systemd() {
 	cd && cd temp
-	wget -O docker.service 
-https://raw.githubusercontent.com/moby/moby/master/contrib/init/systemd/docker.service.rpm
+	wget -O docker.service https://raw.githubusercontent.com/moby/moby/master/contrib/init/systemd/docker.service.rpm
 	mv docker.service /etc/systemd/system
 	systemctl daemon-reload
 	systemctl start docker
