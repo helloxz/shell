@@ -1,6 +1,14 @@
 #!/bin/bash
 #####	新系统初始化	#####
 
+#关闭selinux
+function close_selinux() {
+	#临时关闭
+	setenforce 0
+	#永久关闭
+	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+}
+
 #同步时间
 function sync_time() {
 	echo '正在执行时间同步......'
@@ -53,6 +61,8 @@ function insrall_bbr() {
 	#重启服务器
 	reboot
 }
+
+close_selinux
 sync_time
 change_port
 insrall_bbr
