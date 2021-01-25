@@ -62,4 +62,11 @@ function insrall_bbr() {
 	reboot
 }
 
-close_selinux || sync_time || change_port || insrall_bbr
+close_selinux
+sync_time
+change_port
+insrall_bbr
+
+sleep 20
+
+echo 'test'
