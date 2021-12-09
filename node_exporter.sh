@@ -43,7 +43,7 @@ EOF
 }
 
 #放行端口
-release_port{
+release_port(){
 	firewall-cmd --zone=public --add-port=29100/tcp --permanent
 	firewall-cmd --reload
 }
