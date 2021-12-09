@@ -58,7 +58,6 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-User=prometheus
 ExecStart=${INSTALL_PATH}/node_exporter --web.listen-address=":29100" --web.config=${INSTALL_PATH}/config.yaml
 
 [Install]
