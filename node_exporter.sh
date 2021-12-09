@@ -74,4 +74,5 @@ clean_work() {
 	rm -rf /opt/node_exporter-${VERSION}.linux-amd64.tar.gz
 }
 
-depend && download && setting release_port && reg_systemd
+depend && download && setting && release_port && reg_systemd
+clean_work
