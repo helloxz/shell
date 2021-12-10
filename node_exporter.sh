@@ -100,3 +100,4 @@ clean_work() {
 }
 
 depend && download && setting && release_port && reg_systemd && clean_work && install_success
+
