@@ -52,7 +52,7 @@ release_port(){
 	if [ $? -eq 0 ]
 	then
 		firewall_status=$(firewall-cmd --state)
-		if[[ "firewall_status" == "running" ]]
+		if [[ "firewall_status" == "running" ]]
 		then
 			firewall-cmd --zone=public --add-port=29100/tcp --permanent
 			firewall-cmd --reload
