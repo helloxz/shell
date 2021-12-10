@@ -51,8 +51,12 @@ release_port(){
 	which firewall-cmd
 	if [ $? -eq 0 ]
 	then
-		firewall-cmd --zone=public --add-port=29100/tcp --permanent
-		firewall-cmd --reload
+		firewall_status=$(firewall-cmd --state)
+		if[[ "firewall_status" == "running" ]]
+		then
+			firewall-cmd --zone=public --add-port=29100/tcp --permanent
+			firewall-cmd --reload
+		fi
 	fi
 	which ufw
 	if [ $? -eq 0 ]
@@ -79,11 +83,13 @@ WantedBy=default.target" > /etc/systemd/system/node_exporter.service
 	systemctl daemon-reload
 	#启动服务
 	systemctl start node_exporter.service
+	#设置开机自启
+	systemctl enable node_exporter.service
 }
 
 #安装完成
 install_success(){
-	myip=$(curl ip.sb)
+	myip=$(curl -s ip.sb)
 	echo "Installation is complete, please visit http://${myip}:29100"
 }
 
@@ -93,5 +99,4 @@ clean_work() {
 	rm -rf /opt/node_exporter-${VERSION}.linux-amd64.tar.gz
 }
 
-depend && download && setting && release_port && reg_systemd && install_success
-clean_work
+depend && download && setting && release_port && reg_systemd && clean_work && install_success
