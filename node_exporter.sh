@@ -6,9 +6,9 @@
 #获取版本号
 VERSION=$1
 #instance名称
-INSTANCE=$2
+#INSTANCE=$2
 #用户名、密码
-USERNAME_PASSWORD=$3
+#USERNAME_PASSWORD=$3
 #安装目录
 INSTALL_PATH="/opt/node_exporter"
 
@@ -23,8 +23,11 @@ depend(){
 		apt-get -y update
 		apt-get install -y wget curl
 	fi
-	#创建目录
-	#mkdir -p ${INSTALL_PATH}
+	#获取INSTANCE名称，如果为空，则获取hostname
+	if [[ "$INSTANCE" == "" ]]
+	then
+		INSTANCE=$(echo $HOSTNAME)
+	fi
 }
 #下载
 download(){
@@ -89,7 +92,7 @@ WantedBy=default.target" > /etc/systemd/system/node_exporter.service
 
 #安装完成
 install_success(){
-	myip=$(curl -s ip.sb)
+	
 	echo "Installation is complete, please visit http://${myip}:29100"
 }
 
