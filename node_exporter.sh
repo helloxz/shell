@@ -32,7 +32,7 @@ depend(){
 	then
 		INSTANCE=$(echo $HOSTNAME)_${myip}
 	else
-		INSTANCE=${HOSTNAME}_${myip}
+		INSTANCE=${INSTANCE}_${myip}
 	fi
 }
 #下载
@@ -101,6 +101,7 @@ install_success(){
 	echo "----------------------------"
 	#推送数据到普罗米修斯以自动注册
 	curl -u 'xiaoz:HAKrmCM6' -X POST -d "instance=${INSTANCE}" https://prometheus.rss.ink/api/v1/push_data
+	echo "\n"
 	echo "Installation is complete, please visit http://${myip}:29100"
 }
 
