@@ -61,7 +61,7 @@ release_port(){
 	if [ $? -eq 0 ]
 	then
 		firewall_status=$(firewall-cmd --state)
-		if [[ "firewall_status" == "running" ]]
+		if [[ "$firewall_status" == "running" ]]
 		then
 			firewall-cmd --zone=public --add-port=29100/tcp --permanent
 			firewall-cmd --reload
@@ -120,6 +120,8 @@ uninstall(){
 	systemctl daemon-reload
 	#删除安装目录
 	rm -rf ${INSTALL_PATH}
+	echo "----------------------------"
+	echo "Uninstall completed."
 }
 
 #根据参数一判断执行动作
