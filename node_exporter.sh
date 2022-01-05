@@ -23,10 +23,14 @@ depend(){
 		apt-get -y update
 		apt-get install -y wget curl
 	fi
+	#获取机器IP
+	myip=$(curl ipv4.ip.sb)
 	#获取INSTANCE名称，如果为空，则获取hostname
 	if [[ "$INSTANCE" == "" ]]
 	then
-		INSTANCE=$(echo $HOSTNAME)
+		INSTANCE=$(echo $HOSTNAME)_${myip}
+	else
+		INSTANCE=${HOSTNAME}_${myip}
 	fi
 }
 #下载
@@ -92,7 +96,9 @@ WantedBy=default.target" > /etc/systemd/system/node_exporter.service
 
 #安装完成
 install_success(){
-	
+	echo "----------------------------"
+	#推送数据到普罗米修斯以自动注册
+	curl -u 'xiaoz:HAKrmCM6' -X POST -d "instance=${INSTANCE}" https://prometheus.rss.ink/api/v1/push_data
 	echo "Installation is complete, please visit http://${myip}:29100"
 }
 
