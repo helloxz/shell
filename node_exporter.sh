@@ -3,8 +3,10 @@
 #####	authro:xiaoz<xiaoz93@outlook.com>	#####
 #####	update:2021/12/09					#####
 
+#获取action
+ACTION=$1
 #获取版本号
-VERSION=$1
+VERSION=$2
 #instance名称
 #INSTANCE=$2
 #用户名、密码
@@ -108,5 +110,30 @@ clean_work() {
 	rm -rf /opt/node_exporter-${VERSION}.linux-amd64.tar.gz
 }
 
-depend && download && setting && release_port && reg_systemd && clean_work && install_success
+#卸载node_exporter
+uninstall(){
+	#停止服务
+	systemctl stop node_exporter
+	systemctl disable node_exporter
+	#删除服务
+	rm -rf /etc/systemd/system/node_exporter.service
+	systemctl daemon-reload
+	#删除安装目录
+	rm -rf ${INSTALL_PATH}
+}
+
+#根据参数一判断执行动作
+case $ACTION in
+"install")
+	depend && download && setting && release_port && reg_systemd && clean_work && install_success
+	;;
+"uninstall")
+	uninstall
+	;;
+*)
+	echo "Parameter error!"
+	;;
+esac
+
+
 
