@@ -38,7 +38,7 @@ depend(){
 #下载
 download(){
 	#下载之前检查node_exporter是否安装过
-	if [ -f "/opt/node_exporter" ]
+	if [ -f "/opt/node_exporter/node_exporter" ]
 	then
 		echo "node_exporter has been installed."
 		exit
