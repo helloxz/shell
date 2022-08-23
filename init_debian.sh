@@ -28,7 +28,7 @@ init_soft(){
 	
 	#FirewallBackend # Selects the firewall backend implementation. # Choices are: # - nftables (default) # - iptables (iptables, ip6tables, ebtables and ipset) FirewallBackend=iptables
 	#针对上面的错误，需要将iptables更换为nftables
-	set -i "s/FirewallBackend=iptables/FirewallBackend=nftables/g" /etc/firewalld/firewalld.conf
+	sed -i "s/FirewallBackend=iptables/FirewallBackend=nftables/g" /etc/firewalld/firewalld.conf
 	
 	#放行常见端口
 	firewall-cmd --zone=public --add-port=80/tcp --permanent
