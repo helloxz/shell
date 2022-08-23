@@ -9,31 +9,30 @@ ssh_port=$1
 #初始化软件
 init_soft(){
 	echo '--------------------------------------------------------------';
-	echo 'Install curl/wget and firewalld.'
+	echo 'Install curl/wget and ufw.'
 	echo '--------------------------------------------------------------';
 	#更新软件
 	apt-get update
 	#使用nftables
-	update-alternatives --set iptables /usr/sbin/iptables-nft
-	update-alternatives --set ip6tables /usr/sbin/ip6tables-nft
-	update-alternatives --set arptables /usr/sbin/arptables-nft
-	update-alternatives --set ebtables /usr/sbin/ebtables-nft
+	#update-alternatives --set iptables /usr/sbin/iptables-nft
+	#update-alternatives --set ip6tables /usr/sbin/ip6tables-nft
+	#update-alternatives --set arptables /usr/sbin/arptables-nft
+	#update-alternatives --set ebtables /usr/sbin/ebtables-nft
 
 
 	#安装必要软件
-	apt-get -y install curl wget
-	apt-get -y install firewalld
+	apt-get -y install curl wget ufw
+	#apt-get -y install firewalld
 	#启动firewalld
-	systemctl start firewalld && systemctl enable firewalld
+	#systemctl start firewalld && systemctl enable firewalld
 	
 	#FirewallBackend # Selects the firewall backend implementation. # Choices are: # - nftables (default) # - iptables (iptables, ip6tables, ebtables and ipset) FirewallBackend=iptables
 	#针对上面的错误，需要将iptables更换为nftables
-	sed -i "s/FirewallBackend=iptables/FirewallBackend=nftables/g" /etc/firewalld/firewalld.conf
+	#sed -i "s/FirewallBackend=iptables/FirewallBackend=nftables/g" /etc/firewalld/firewalld.conf
 	
 	#放行常见端口
-	firewall-cmd --zone=public --add-port=80/tcp --permanent
-	firewall-cmd --zone=public --add-port=443/tcp --permanent
-	firewall-cmd --reload
+	ufw allow 80
+	ufw allow 443
 }
 
 #初始化SSH配置
@@ -43,8 +42,7 @@ init_ssh(){
 	echo 'Modifying SSH port.'
 	echo '--------------------------------------------------------------';
 	#先放行端口
-	firewall-cmd --zone=public --add-port=${ssh_port}/tcp --permanent
-	firewall-cmd --reload
+	ufw allow ${ssh_port}
 
 	#修改ssh配置文件
 	#修改SSH端口
