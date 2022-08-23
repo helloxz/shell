@@ -21,7 +21,7 @@ init_soft(){
 
 
 	#安装必要软件
-	apt-get -y install curl wget ufw
+	apt-get -y install curl wget ufw net-tools
 	#apt-get -y install firewalld
 	#启动firewalld
 	#systemctl start firewalld && systemctl enable firewalld
@@ -66,7 +66,7 @@ init_timezone(){
 	ntp_path=$(which ntpdate)
 
 	#写入定时任务
-	echo "${ntp_path} -u pool.ntp.org" >> /var/spool/cron/crontabs/root
+	echo "*/20 * * * * ${ntp_path} -u pool.ntp.org > /dev/null 2>&1" >> /var/spool/cron/crontabs/root
 	#重载定时任务
 	/etc/init.d/cron reload
 }
