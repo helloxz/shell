@@ -13,11 +13,23 @@ init_soft(){
 	echo '--------------------------------------------------------------';
 	#更新软件
 	apt-get update
+	#使用nftables
+	update-alternatives --set iptables /usr/sbin/iptables-nft
+	update-alternatives --set ip6tables /usr/sbin/ip6tables-nft
+	update-alternatives --set arptables /usr/sbin/arptables-nft
+	update-alternatives --set ebtables /usr/sbin/ebtables-nft
+
+
 	#安装必要软件
 	apt-get -y install curl wget
 	apt-get -y install firewalld
 	#启动firewalld
 	systemctl start firewalld && systemctl enable firewalld
+	
+	#FirewallBackend # Selects the firewall backend implementation. # Choices are: # - nftables (default) # - iptables (iptables, ip6tables, ebtables and ipset) FirewallBackend=iptables
+	#针对上面的错误，需要将iptables更换为nftables
+	set -i "s/FirewallBackend=iptables/FirewallBackend=nftables/g" /etc/firewalld/firewalld.conf
+	
 	#放行常见端口
 	firewall-cmd --zone=public --add-port=80/tcp --permanent
 	firewall-cmd --zone=public --add-port=443/tcp --permanent
