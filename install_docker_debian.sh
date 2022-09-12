@@ -21,10 +21,11 @@ preparation(){
 #安装docker
 install_docker(){
 	#创建配置文件
+	mkdir -p /etc/docker
 	touch /etc/docker/daemon.json
 	#创建存储目录
 	mkdir -p /data/docker-data
-	chown -R docker:docker /data/docker-data
+	#chown -R docker:docker /data/docker-data
 cat <<EOF > /etc/docker/daemon.json
 {
     "data-root": "/data/docker-data",
