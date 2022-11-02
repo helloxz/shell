@@ -47,7 +47,7 @@ function insrall_bbr() {
 	rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-3.el7.elrepo.noarch.rpm
 
 	#升级最新内核
-	yum --enablerepo=elrepo-kernel install kernel-ml -y
+	yum --enablerepo=elrepo-kernel install kernel-lt -y
 	#设置最新内核
 	grub2-set-default 0
 
