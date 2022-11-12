@@ -106,5 +106,19 @@ change_ulimit() {
 	sysctl -p
 }
 
+#安装vim
+install_vim() {
+	apt-get remove vim-common -y
+	apt-get install vim -y
+	sed -i 's/mouse=a/mouse-=a/g' /usr/share/vim/vim*/defaults.vim
+}
+
+# add_lias
+add_alias() {
+	cp ~/.bashrc ~/.bashrc.bak
+	echo "alias ll='ls -l'" >> ~/.bashrc
+	source ~/.bashrc
+}
+
 #调用函数执行
-init_soft && init_ssh && init_timezone && set_swap && enable_bbr && change_ulimit
+init_soft && init_timezone && set_swap && enable_bbr && change_ulimit && install_vim && add_alias
