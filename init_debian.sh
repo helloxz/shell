@@ -33,6 +33,10 @@ init_soft(){
 	#放行常见端口
 	ufw allow 80
 	ufw allow 443
+	ufw allow 22
+
+	ufw enable
+	systemctl enable ufw
 }
 
 #初始化SSH配置
