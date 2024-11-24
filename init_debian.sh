@@ -66,6 +66,8 @@ init_timezone(){
     #设置时区为上海
     timedatectl set-timezone Asia/Shanghai
 
+    apt-get install -y cron
+
     #安装 chrony 或 systemd-timesyncd 以替代 ntpdate
     if apt-get install -y chrony; then
         systemctl enable chrony
@@ -81,7 +83,7 @@ init_timezone(){
     (crontab -l 2>/dev/null; echo "*/20 * * * * chronyc burst 4/4 > /dev/null 2>&1 || systemctl restart systemd-timesyncd > /dev/null 2>&1") | crontab -
 
     #重载定时任务
-    systemctl reload cron
+    /etc/init.d/cron reload
 }
 
 #设置虚拟内存，如果存在虚拟内存，则不设置
