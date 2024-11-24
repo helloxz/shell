@@ -35,7 +35,7 @@ init_soft(){
 	ufw allow 443
 	ufw allow 22
 
-	ufw enable
+	ufw --force enable
 	systemctl enable ufw
 }
 
