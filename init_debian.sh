@@ -60,19 +60,28 @@ init_ssh(){
 
 #初始化时区
 init_timezone(){
-	echo '--------------------------------------------------------------';
-	echo 'Setting time zone.'
-	echo '--------------------------------------------------------------';
-	#设置时区为上海
-	timedatectl set-timezone Asia/Shanghai
-	#同步时间
-	apt-get install ntpdate
-	ntp_path=$(which ntpdate)
+    echo '--------------------------------------------------------------';
+    echo 'Setting time zone.'
+    echo '--------------------------------------------------------------';
+    #设置时区为上海
+    timedatectl set-timezone Asia/Shanghai
 
-	#写入定时任务
-	echo "*/20 * * * * ${ntp_path} -u pool.ntp.org > /dev/null 2>&1" >> /var/spool/cron/crontabs/root
-	#重载定时任务
-	/etc/init.d/cron reload
+    #安装 chrony 或 systemd-timesyncd 以替代 ntpdate
+    if apt-get install -y chrony; then
+        systemctl enable chrony
+        systemctl start chrony
+        chronyc -a 'burst 4/4'
+    else
+        apt-get install -y systemd-timesyncd
+        systemctl enable systemd-timesyncd
+        systemctl start systemd-timesyncd
+    fi
+
+    #写入定时任务以确保时间同步
+    (crontab -l 2>/dev/null; echo "*/20 * * * * chronyc burst 4/4 > /dev/null 2>&1 || systemctl restart systemd-timesyncd > /dev/null 2>&1") | crontab -
+
+    #重载定时任务
+    systemctl reload cron
 }
 
 #设置虚拟内存，如果存在虚拟内存，则不设置
